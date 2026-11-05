@@ -37,4 +37,3 @@ Aplikasi ini bertujuan untuk:
 ## Catatan
 Petunjuk instalasi, konfigurasi, dan penggunaan aplikasi akan diperbarui sesuai dengan perkembangan dan kebutuhan proyek.
  
-isi README.md awal{?} @wahyu SI @Jeniper SI'24 @Zalfa Putri
