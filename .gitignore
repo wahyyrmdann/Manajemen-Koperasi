@@ -1,18 +1,23 @@
-# Local environment and secrets
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
 .env
-.env.*
-!.env.example
-
-# Local database configuration
-config/database.local.php
-
-# Logs
-*.log
-
-# Operating system files
-.DS_Store
-Thumbs.db
-
-# Editor settings that are specific to a user
-.vscode/
-
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
