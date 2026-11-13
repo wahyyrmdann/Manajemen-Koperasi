@@ -28,8 +28,21 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
+        ];
+    }
+
+    /**
+     * Get custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Kolom username atau email wajib diisi.',
+            'password.required' => 'Kolom password wajib diisi.',
         ];
     }
 
@@ -42,12 +55,28 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $login = $this->string('email')->toString();
+        $password = $this->string('password')->toString();
+        $remember = $this->boolean('remember');
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Allow logging in with either email or username (name)
+        $credentials = filter_var($login, FILTER_VALIDATE_EMAIL)
+            ? ['email' => $login, 'password' => $password]
+            : ['name' => $login, 'password' => $password];
+
+        if (! Auth::attempt($credentials, $remember)) {
+            // Fallback attempt in case the identifier matches the other attribute
+            $fallbackCredentials = ($credentials === ['email' => $login, 'password' => $password])
+                ? ['name' => $login, 'password' => $password]
+                : ['email' => $login, 'password' => $password];
+
+            if (! Auth::attempt($fallbackCredentials, $remember)) {
+                RateLimiter::hit($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => 'Username atau password salah. Silakan periksa kembali kredensial Anda.',
+                ]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());
