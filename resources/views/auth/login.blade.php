@@ -2,30 +2,32 @@
     <div class="w-full max-w-[440px] flex flex-col items-center">
         <!-- Login Card -->
         <div class="w-full bg-white rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-100 overflow-hidden relative">
-            <!-- Top Red Accent Line (Nuansa Merah Putih) -->
-            <div class="h-1.5 bg-red-600 w-full"></div>
+            <!-- Top Yellow & Blue Accent Line -->
+            <div class="h-1.5 bg-gradient-to-r from-[#0c1e3d] via-blue-700 to-amber-400 w-full"></div>
 
             <div class="p-6 sm:p-8">
                 <!-- Elemen 1: Judul dan Identitas Aplikasi -->
                 <div class="text-center">
-                    <!-- Icon / Emblem Box -->
-                    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#0f172a] shadow-md shadow-slate-900/10 mb-3.5 group">
-                        <svg class="w-8 h-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 19 6 19 14 12 18 5 14 5 6 12 2" stroke="currentColor" />
-                            <circle cx="12" cy="10" r="2.75" stroke="currentColor" fill="currentColor" fill-opacity="0.2" />
-                            <line x1="12" y1="2" x2="12" y2="7.25" />
-                            <line x1="12" y1="12.75" x2="12" y2="18" />
-                            <line x1="5" y1="6" x2="9.5" y2="8.6" />
-                            <line x1="19" y1="6" x2="14.5" y2="8.6" />
-                            <line x1="5" y1="14" x2="9.5" y2="11.4" />
-                            <line x1="19" y1="14" x2="14.5" y2="11.4" />
-                        </svg>
+                    <!-- Logo Koperasi (Gambar ke-2) -->
+                    <div class="flex justify-center mb-3">
+                        <div class="h-20 w-auto flex items-center justify-center p-1">
+                            <img src="{{ asset('images/logo.png') }}"
+                                 alt="Logo Koperasi Desa Merah Putih"
+                                 class="h-full w-auto max-h-20 object-contain drop-shadow-xs"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            />
+                            <div class="hidden flex-col items-center justify-center">
+                                <div class="w-12 h-12 rounded-xl bg-[#0c1e3d] text-amber-300 flex items-center justify-center font-bold text-lg shadow-sm">
+                                    KP
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Koperasi Badge -->
+                    <!-- Koperasi Badge (Kuning Biru) -->
                     <div class="flex justify-center mb-2">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200/70 shadow-xs">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-900 border border-blue-200/80 shadow-xs">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                             Koperasi Desa Merah Putih
                         </span>
                     </div>
@@ -105,7 +107,7 @@
                                 autofocus
                                 autocomplete="username"
                                 placeholder="Masukkan username atau alamat email"
-                                class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-600/20 focus:border-red-600 transition duration-150"
+                                class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 transition duration-150"
                             />
                         </div>
                     </div>
@@ -117,7 +119,7 @@
                                 Password
                             </label>
                             @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-xs font-medium text-red-600 hover:text-red-700 hover:underline transition">
+                                <a href="{{ route('password.request') }}" class="text-xs font-medium text-blue-700 hover:text-amber-600 hover:underline transition">
                                     Lupa Password?
                                 </a>
                             @endif
@@ -137,7 +139,7 @@
                                 required
                                 autocomplete="current-password"
                                 placeholder="••••••••••••"
-                                class="w-full pl-10 pr-10 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-600/20 focus:border-red-600 transition duration-150"
+                                class="w-full pl-10 pr-10 py-2.5 bg-slate-50/70 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 transition duration-150"
                             />
                             <button
                                 type="button"
@@ -165,7 +167,7 @@
                             id="remember_me"
                             type="checkbox"
                             name="remember"
-                            class="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-600 focus:ring-offset-0 cursor-pointer"
+                            class="w-4 h-4 rounded border-slate-300 text-blue-700 focus:ring-blue-700 focus:ring-offset-0 cursor-pointer"
                         />
                         <label for="remember_me" class="ms-2.5 text-xs text-slate-600 select-none cursor-pointer font-normal">
                             Ingat Saya di Perangkat Ini
@@ -176,10 +178,10 @@
                     <div class="pt-2">
                         <button
                             type="submit"
-                            class="w-full py-2.5 sm:py-3 px-4 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-medium text-sm rounded-xl shadow-sm hover:shadow transition duration-150 flex items-center justify-center gap-2 group cursor-pointer"
+                            class="w-full py-2.5 sm:py-3 px-4 bg-[#0c1e3d] hover:bg-[#132d5e] active:bg-[#08152b] text-amber-300 font-bold text-sm rounded-xl shadow-md shadow-blue-950/20 transition duration-150 flex items-center justify-center gap-2 group cursor-pointer border border-blue-900/60"
                         >
                             <span>Masuk</span>
-                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-amber-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </button>
