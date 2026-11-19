@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -55,29 +58,35 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $login = $this->string('email')->toString();
+        $login = trim($this->string('email')->toString());
         $password = $this->string('password')->toString();
         $remember = $this->boolean('remember');
 
-        // Allow logging in with either email or username (name)
-        $credentials = filter_var($login, FILTER_VALIDATE_EMAIL)
-            ? ['email' => $login, 'password' => $password]
-            : ['name' => $login, 'password' => $password];
+        // Cari user yang cocok berdasarkan email atau username/name (fleksibel: mendukung 'admin', 'Administrator', atau email)
+        $user = User::where(function ($query) use ($login) {
+            $query->where('email', $login)
+                  ->orWhere('name', $login);
 
-        if (! Auth::attempt($credentials, $remember)) {
-            // Fallback attempt in case the identifier matches the other attribute
-            $fallbackCredentials = ($credentials === ['email' => $login, 'password' => $password])
-                ? ['name' => $login, 'password' => $password]
-                : ['email' => $login, 'password' => $password];
-
-            if (! Auth::attempt($fallbackCredentials, $remember)) {
-                RateLimiter::hit($this->throttleKey());
-
-                throw ValidationException::withMessages([
-                    'email' => 'Username atau password salah. Silakan periksa kembali kredensial Anda.',
-                ]);
+            // Dukung alias username admin <-> Administrator
+            if (strtolower($login) === 'admin') {
+                $query->orWhere('name', 'Administrator')
+                      ->orWhere('email', 'admin@koperasi.test');
+            } elseif (strtolower($login) === 'administrator') {
+                $query->orWhere('name', 'admin');
             }
+        })->first();
+
+        // Validasi keberadaan user dan kecocokan password
+        if (! $user || ! Hash::check($password, $user->password)) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Username atau password salah. Silakan periksa kembali kredensial Anda.',
+            ]);
         }
+
+        // Autentikasi user terdaftar yang cocok
+        Auth::login($user, $remember);
 
         RateLimiter::clear($this->throttleKey());
     }
