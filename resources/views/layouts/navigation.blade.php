@@ -5,8 +5,11 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="font-bold text-lg text-emerald-700 tracking-wide flex items-center gap-2">
+                        <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span>Koperasi Gudang</span>
                     </a>
                 </div>
 
@@ -14,6 +17,12 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('incoming.index')" :active="request()->routeIs('incoming.*')">
+                        {{ __('Barang Masuk') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('outgoing.index')" :active="request()->routeIs('outgoing.*')">
+                        {{ __('Barang Keluar') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -69,6 +78,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('incoming.index')" :active="request()->routeIs('incoming.*')">
+                {{ __('Barang Masuk') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('outgoing.index')" :active="request()->routeIs('outgoing.*')">
+                {{ __('Barang Keluar') }}
             </x-responsive-nav-link>
         </div>
 

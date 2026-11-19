@@ -1,0 +1,4 @@
+seeder dibuat dalam 1 file
+
+halaman login dibuat hanya untuk admin terdaftar saja 
+
