@@ -1,66 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Manajemen - Koperasi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Deskripsi
+Sistem Manajemen Inventaris Koperasi adalah aplikasi berbasis web yang dirancang untuk mendigitalisasi proses pengelolaan persediaan barang di koperasi yang sebelumnya dilakukan secara manual menggunakan buku atau Microsoft Excel. Sistem ini dibangun menggunakan **Laravel 12** dengan arsitektur three-tier (presentasi, logika bisnis, dan data) serta basis data **MySQL**.
 
-## About Laravel
+Aplikasi ini bertujuan untuk:
+- **Digitalisasi dan Otomatisasi Stok**: Menggantikan pencatatan manual dengan sistem digital yang dapat menghitung dan memperbarui jumlah persediaan barang secara otomatis dan terintegrasi setiap kali transaksi divalidasi.
+- **Mengatasi Permasalahan Operasional Gudang**: Meminimalkan ketidaksesuaian antara catatan stok dan jumlah fisik barang, mencegah keterlambatan pencatatan barang masuk dan keluar, serta mempermudah pemantauan ketersediaan barang.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur
+| Fitur | Keterangan | Status |
+|---|---|---|
+| Login | Autentikasi dengan email atau username, dilengkapi pembatasan percobaan login | Tersedia |
+| Data Barang | Tambah, ubah, hapus, dan cari data barang (kode, nama, satuan, stok) | Tersedia |
+| Barang Masuk (Penerimaan) | Pencatatan penerimaan dari supplier; stok bertambah otomatis setelah transaksi divalidasi | Tersedia |
+| Barang Keluar (Pengiriman) | Pencatatan pengeluaran barang ke anggota; stok berkurang otomatis setelah transaksi divalidasi | Dalam pengembangan |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Peran pengguna:
+- **Admin**: memiliki hak akses penuh dan dapat melihat data penerimaan serta pengeluaran yang dicatat karyawan.
+- **Karyawan**: mencatat barang masuk dan barang keluar sesuai aktivitas harian.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Alur status transaksi: `draft` → `done` (divalidasi, stok berubah) atau `cancelled` (dibatalkan).
 
-## Learning Laravel
+## Anggota Tim
+- Wahyu Ramadan - Peran
+- Adelia Cyntia Renata - Peran
+- Nazwa Nur Hafizhah - Peran
+- Zalfa Putri Sopyandi - Peran
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Teknologi
+- PHP 8.2 atau lebih baru
+- Laravel 12 (dengan Laravel Breeze untuk autentikasi)
+- MySQL
+- Blade (template engine)
+- Tailwind CSS
+- Alpine.js
+- Vite
+- Composer dan Node.js (npm)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Struktur Dokumentasi
+- docs/SDD: Dokumen Software Design Description (desain perangkat lunak).
+- docs/STD: Dokumen Software Testing Document (pengujian perangkat lunak).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Struktur Folder Utama
+```
+app/
+  Enums/          Enum peran, tipe mitra, tipe dan status transaksi
+  Http/           Controller, Form Request, dan Middleware
+  Models/         Model Eloquent (User, Partner, Product, StockTransaction, StockTransactionItem)
+  Services/       Logika bisnis transaksi stok
+database/
+  migrations/     Skema tabel
+  seeders/        Data awal (admin, mitra, dan barang contoh)
+resources/views/  Tampilan Blade
+routes/           Definisi route
+```
 
-## Laravel Sponsors
+## Persiapan
+Pastikan perangkat sudah terpasang **XAMPP** (Apache dan MySQL), **PHP 8.2+**, **Composer**, dan **Node.js**.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clone repository, lalu masuk ke folder proyek.
+   ```bash
+   git clone <url-repository>
+   cd Manajemen-Koperasi
+   ```
+2. Jalankan Apache dan MySQL dari XAMPP Control Panel.
+3. Buat database kosong, misalnya `manajemen_koperasi`, melalui phpMyAdmin.
+4. Pasang dependensi.
+   ```bash
+   composer install
+   npm install
+   ```
+5. Salin file environment dan buat application key.
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   Pada Windows (Command Prompt) gunakan `copy .env.example .env`.
+6. Ubah konfigurasi database pada file `.env`.
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=manajemen_koperasi
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+7. Jalankan migrasi dan seeder.
+   ```bash
+   php artisan migrate --seed
+   ```
+8. Jalankan aplikasi. Gunakan dua terminal.
+   ```bash
+   # Terminal 1
+   php artisan serve
 
-### Premium Partners
+   # Terminal 2
+   npm run dev
+   ```
+9. Buka `http://127.0.0.1:8000` di browser.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Akun Awal
+Seeder membuat satu akun admin untuk keperluan pengembangan:
 
-## Contributing
+| Email | Password |
+|---|---|
+| admin@koperasi.test | password |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Akun dapat diubah lewat variabel `ADMIN_EMAIL` dan `ADMIN_PASSWORD` di `.env` sebelum menjalankan seeder. Ganti password bawaan sebelum aplikasi dipakai di luar lingkungan lokal.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Catatan
+- Seluruh seeder berada dalam satu file `database/seeders/DatabaseSeeder.php`. Jalankan dengan `php artisan db:seed` atau `php artisan migrate:fresh --seed`. Perintah `db:seed --class=AdminSeeder` tidak dapat digunakan.
+- `migrate:fresh` menghapus seluruh tabel beserta datanya. Jangan dijalankan pada data yang masih dibutuhkan.
+- Petunjuk instalasi, konfigurasi, dan penggunaan aplikasi akan diperbarui sesuai dengan perkembangan dan kebutuhan proyek.
