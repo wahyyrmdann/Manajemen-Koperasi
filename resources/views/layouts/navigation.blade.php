@@ -1,7 +1,7 @@
-<nav x-data="{ open: false, operasiOpen: false, userOpen: false }" class="bg-[#0c1e3d] border-b border-blue-900/60 text-white shadow-md sticky top-0 z-50">
+<nav x-data="{ open: false, userOpen: false }" class="bg-[#0c1e3d] border-b border-blue-900/60 text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <!-- Left: Logo & Menu Navigasi Inventory (Elemen 1) -->
+            <!-- Left: Logo & Menu Navigasi -->
             <div class="flex items-center gap-6 lg:gap-8">
                 <!-- Brand / Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group focus:outline-none">
@@ -21,67 +21,28 @@
                     </div>
                 </a>
 
-                <!-- Elemen 1: Menu Navigasi Inventory (Desktop) -->
+                <!-- Menu Navigasi Utama (Desktop) -->
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
-                    <!-- Ikhtisar (Active) -->
                     <a href="{{ route('dashboard') }}"
                        class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 {{ request()->routeIs('dashboard') ? 'bg-blue-900/90 text-amber-300 border border-blue-700/60 shadow-inner' : 'text-slate-300 hover:text-white hover:bg-blue-900/40' }}">
-                        Ikhtisar
+                        Dashboard
                     </a>
 
-                    <!-- Operasi (Dropdown) -->
-                    <div class="relative" @click.away="operasiOpen = false">
-                        <button @click="operasiOpen = !operasiOpen" type="button"
-                                class="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 {{ request()->routeIs('incoming.*') || request()->routeIs('outgoing.*') ? 'bg-blue-900/90 text-amber-300 border border-blue-700/60' : 'text-slate-300 hover:text-white hover:bg-blue-900/40' }}">
-                            <span>Operasi</span>
-                            <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': operasiOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div x-show="operasiOpen"
-                             x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="transform opacity-0 scale-95"
-                             x-transition:enter-end="transform opacity-100 scale-100"
-                             x-transition:leave="transition ease-in duration-75"
-                             x-transition:leave-start="transform opacity-100 scale-100"
-                             x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute left-0 mt-2 w-56 rounded-xl bg-white shadow-xl border border-slate-100 py-1.5 z-50 text-slate-800"
-                             style="display: none;">
-                            <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                                Alur Operasional
-                            </div>
-                            <a href="{{ route('incoming.index') }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium hover:bg-blue-50 hover:text-blue-900 transition">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                <div>
-                                    <p class="font-semibold text-slate-800">Penerimaan (UI-003)</p>
-                                    <p class="text-[10px] text-slate-400">Barang masuk dari mitra/pemasok</p>
-                                </div>
-                            </a>
-                            <a href="{{ route('outgoing.index') }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium hover:bg-blue-50 hover:text-blue-900 transition">
-                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                                <div>
-                                    <p class="font-semibold text-slate-800">Pengiriman (UI-005)</p>
-                                    <p class="text-[10px] text-slate-400">Order barang keluar & surat jalan</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Laporan -->
-                    <a href="#" onclick="alert('Menu Laporan sedang disiapkan.'); return false;"
-                       class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-blue-900/40 transition">
-                        Laporan
+                    <a href="{{ route('incoming.index') }}"
+                       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 {{ request()->routeIs('incoming.*') ? 'bg-blue-900/90 text-amber-300 border border-blue-700/60 shadow-inner' : 'text-slate-300 hover:text-white hover:bg-blue-900/40' }}">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span>Barang Masuk</span>
                     </a>
 
-                    <!-- Konfigurasi -->
-                    <a href="#" onclick="alert('Menu Konfigurasi sedang disiapkan.'); return false;"
-                       class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-blue-900/40 transition">
-                        Konfigurasi
+                    <a href="{{ route('outgoing.index') }}"
+                       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 {{ request()->routeIs('outgoing.*') ? 'bg-blue-900/90 text-amber-300 border border-blue-700/60 shadow-inner' : 'text-slate-300 hover:text-white hover:bg-blue-900/40' }}">
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        <span>Barang Keluar</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Right: Tanggal, Notifikasi & Menu Pengguna (Elemen 2) -->
+            <!-- Right: Tanggal & Menu Pengguna -->
             <div class="flex items-center gap-3 sm:gap-4">
                 <!-- Tanggal Aktif -->
                 <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-950/60 border border-blue-800/40 text-xs text-slate-300 font-medium">
@@ -91,15 +52,7 @@
                     <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d M Y') }}</span>
                 </div>
 
-                <!-- Notifikasi Bell -->
-                <button type="button" class="relative p-2 rounded-lg text-slate-300 hover:text-amber-300 hover:bg-blue-900/50 transition focus:outline-none" title="Notifikasi Sistem">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                    </svg>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-400 ring-2 ring-[#0c1e3d]"></span>
-                </button>
-
-                <!-- Elemen 2: Menu Pengguna -->
+                <!-- Menu Pengguna -->
                 <div class="relative" @click.away="userOpen = false">
                     <button @click="userOpen = !userOpen" type="button"
                             class="flex items-center gap-2.5 p-1 sm:px-2.5 sm:py-1 rounded-xl hover:bg-blue-900/60 border border-transparent hover:border-blue-700/50 transition focus:outline-none group">
@@ -123,7 +76,7 @@
                         </svg>
                     </button>
 
-                    <!-- Dropdown Content (Elemen 2) -->
+                    <!-- Dropdown Content -->
                     <div x-show="userOpen"
                          x-transition:enter="transition ease-out duration-100"
                          x-transition:enter-start="transform opacity-0 scale-95"
@@ -177,19 +130,15 @@
     <!-- Mobile Navigation Drawer -->
     <div x-show="open" class="md:hidden border-t border-blue-900/60 bg-[#0c1e3d] px-4 pt-3 pb-4 space-y-1.5" style="display: none;">
         <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-xs font-semibold {{ request()->routeIs('dashboard') ? 'bg-blue-900 text-amber-300' : 'text-slate-300 hover:bg-blue-900/50' }}">
-            Ikhtisar
+            Dashboard
         </a>
-        <a href="{{ route('incoming.index') }}" class="block px-3 py-2 rounded-lg text-xs font-semibold {{ request()->routeIs('incoming.*') ? 'bg-blue-900 text-amber-300' : 'text-slate-300 hover:bg-blue-900/50' }}">
-            Penerimaan (UI-003)
+        <a href="{{ route('incoming.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold {{ request()->routeIs('incoming.*') ? 'bg-blue-900 text-amber-300' : 'text-slate-300 hover:bg-blue-900/50' }}">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Barang Masuk</span>
         </a>
-        <a href="{{ route('outgoing.index') }}" class="block px-3 py-2 rounded-lg text-xs font-semibold {{ request()->routeIs('outgoing.*') ? 'bg-blue-900 text-amber-300' : 'text-slate-300 hover:bg-blue-900/50' }}">
-            Pengiriman (UI-005)
-        </a>
-        <a href="#" onclick="alert('Menu Laporan sedang disiapkan.'); return false;" class="block px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:bg-blue-900/50">
-            Laporan
-        </a>
-        <a href="#" onclick="alert('Menu Konfigurasi sedang disiapkan.'); return false;" class="block px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:bg-blue-900/50">
-            Konfigurasi
+        <a href="{{ route('outgoing.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold {{ request()->routeIs('outgoing.*') ? 'bg-blue-900 text-amber-300' : 'text-slate-300 hover:bg-blue-900/50' }}">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>Barang Keluar</span>
         </a>
         <div class="border-t border-blue-900/80 pt-2 mt-2">
             <form method="POST" action="{{ route('logout') }}">

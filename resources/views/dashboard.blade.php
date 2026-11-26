@@ -7,28 +7,13 @@
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Ringkasan aktivitas inventaris dan transaksi gudang koperasi</p>
             </div>
-            <!-- Tombol Aksi Transaksi -->
-            <div class="flex items-center gap-3">
-                <a href="{{ route('incoming.create') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
-                    <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    + Barang Masuk
-                </a>
-                <a href="{{ route('outgoing.create') }}" class="inline-flex items-center px-4 py-2 bg-amber-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
-                    <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    + Barang Keluar
-                </a>
-            </div>
         </div>
     </x-slot>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <!-- 4 Kartu Ringkasan -->
+        {{-- 4 Kartu Ringkasan --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            <!-- Card 1: Total Jenis Barang -->
+            {{-- Card 1: Total Jenis Barang --}}
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                 <div>
                     <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Jenis Barang</p>
@@ -42,7 +27,7 @@
                 </div>
             </div>
 
-            <!-- Card 2: Total Stok -->
+            {{-- Card 2: Total Stok --}}
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                 <div>
                     <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Stok</p>
@@ -56,7 +41,7 @@
                 </div>
             </div>
 
-            <!-- Card 3: Barang Masuk Draft (klik ke daftar draft) -->
+            {{-- Card 3: Barang Masuk Draft --}}
             <a href="{{ route('incoming.index', ['status' => 'draft']) }}"
                 class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between hover:border-emerald-300 hover:shadow-md transition group">
                 <div>
@@ -71,7 +56,7 @@
                 </div>
             </a>
 
-            <!-- Card 4: Barang Keluar Draft (klik ke daftar draft) -->
+            {{-- Card 4: Barang Keluar Draft --}}
             <a href="{{ route('outgoing.index', ['status' => 'draft']) }}"
                 class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between hover:border-amber-300 hover:shadow-md transition group">
                 <div>
@@ -87,7 +72,7 @@
             </a>
         </div>
 
-        <!-- Tabel 1: Transaksi Utama (10 Transaksi Terbaru) -->
+        {{-- Tabel Transaksi Terbaru --}}
         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-gray-50/50">
                 <div>

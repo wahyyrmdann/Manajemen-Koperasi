@@ -80,7 +80,8 @@
 
         <form method="POST"
               action="{{ $isNew ? route('outgoing.store') : route('outgoing.update', $transaction) }}"
-              id="main-form">
+              id="main-form"
+              @submit="return validateForm()">
             @csrf
             @if(!$isNew)
                 @method('PUT')
@@ -107,7 +108,9 @@
                         <input id="transaction_date" name="transaction_date" type="date"
                                value="{{ old('transaction_date', $transaction?->transaction_date?->format('Y-m-d') ?? now()->format('Y-m-d')) }}"
                                {{ $isEditable ? '' : 'disabled' }}
-                               class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:bg-gray-50 disabled:text-gray-600" />
+                               class="w-full border rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:bg-gray-50 disabled:text-gray-600"
+                               :class="errors.transaction_date ? 'border-rose-400' : 'border-gray-300'" />
+                        <p x-show="errors.transaction_date" x-text="errors.transaction_date" class="text-xs text-rose-600 mt-1"></p>
                     </div>
 
                     {{-- Kirim Ke (Anggota) --}}
@@ -118,7 +121,8 @@
                         <select id="partner_id" name="partner_id"
                                 x-model="partnerId"
                                 {{ $isEditable ? '' : 'disabled' }}
-                                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:bg-gray-50 disabled:text-gray-600">
+                                class="w-full border rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:bg-gray-50 disabled:text-gray-600"
+                                :class="errors.partner_id ? 'border-rose-400' : 'border-gray-300'">
                             <option value="">-- Pilih Anggota --</option>
                             @foreach($members as $member)
                                 <option value="{{ $member->id }}">
@@ -126,6 +130,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        <p x-show="errors.partner_id" x-text="errors.partner_id" class="text-xs text-rose-600 mt-1"></p>
                     </div>
 
                     {{-- Alamat Pengiriman --}}
@@ -185,9 +190,14 @@
                     @if($isEditable)
                         <button type="button" @click="addRow()"
                                 class="inline-flex items-center px-3 py-1.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold hover:bg-amber-100 transition cursor-pointer">
-                            + Tambah Baris
+                            Tambah Baris
                         </button>
                     @endif
+                </div>
+
+                {{-- Pesan error item --}}
+                <div x-show="errors.items" class="px-5 py-3 bg-rose-50 border-b border-rose-200">
+                    <p class="text-xs text-rose-700 font-medium" x-text="errors.items"></p>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -210,7 +220,8 @@
                                         <select :name="`items[${index}][product_id]`"
                                                 x-model="row.product_id"
                                                 {{ $isEditable ? '' : 'disabled' }}
-                                                class="w-full border border-gray-300 rounded-lg text-sm px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50">
+                                                class="w-full border rounded-lg text-sm px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-gray-50"
+                                                :class="row.error ? 'border-rose-400' : 'border-gray-300'">
                                             <option value="">-- Pilih Barang --</option>
                                             @foreach($products as $product)
                                                 <option value="{{ $product->id }}">
@@ -218,6 +229,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <p x-show="row.error" x-text="row.error" class="text-xs text-rose-600 mt-1"></p>
                                     </td>
                                     <td class="py-2.5 px-4 text-gray-600" x-text="getProduct(row.product_id)?.unit ?? '-'"></td>
                                     <td class="py-2.5 px-4 text-right font-medium"
@@ -228,7 +240,9 @@
                                                :name="`items[${index}][quantity]`"
                                                x-model.number="row.quantity"
                                                {{ $isEditable ? '' : 'readonly' }}
-                                               class="w-full border border-gray-300 rounded-lg text-sm px-2.5 py-1.5 text-right focus:outline-none focus:ring-2 focus:ring-amber-500 read-only:bg-gray-50" />
+                                               class="w-full border rounded-lg text-sm px-2.5 py-1.5 text-right focus:outline-none focus:ring-2 focus:ring-amber-500 read-only:bg-gray-50"
+                                               :class="row.qtyError ? 'border-rose-400' : 'border-gray-300'" />
+                                        <p x-show="row.qtyError" x-text="row.qtyError" class="text-xs text-rose-600 mt-1"></p>
                                     </td>
                                     @if($isEditable)
                                         <td class="py-2.5 px-4 text-center">
@@ -294,6 +308,7 @@
                 members: membersMap,
                 partnerId: initialPartnerId,
                 items: initialItems.length ? initialItems : [{ product_id: '', quantity: 1 }],
+                errors: {},
                 getProduct(id) {
                     return id ? (this.products[id] ?? null) : null;
                 },
@@ -316,6 +331,52 @@
                 },
                 totalQty() {
                     return this.items.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+                },
+                validateForm() {
+                    this.errors = {};
+                    let valid = true;
+
+                    // Reset row errors
+                    this.items.forEach(row => { row.error = ''; row.qtyError = ''; });
+
+                    // Header validations
+                    if (!this.partnerId) {
+                        this.errors.partner_id = 'Pilih anggota penerima terlebih dahulu.';
+                        valid = false;
+                    }
+
+                    const txDate = document.getElementById('transaction_date').value;
+                    if (!txDate) {
+                        this.errors.transaction_date = 'Tanggal transaksi wajib diisi.';
+                        valid = false;
+                    }
+
+                    // Items validations
+                    const hasAnyItem = this.items.some(r => r.product_id);
+                    if (!hasAnyItem) {
+                        this.errors.items = 'Tambahkan minimal satu barang pada daftar item.';
+                        valid = false;
+                    }
+
+                    const selectedIds = [];
+                    this.items.forEach((row, idx) => {
+                        if (!row.product_id) {
+                            row.error = 'Pilih barang untuk baris ini.';
+                            valid = false;
+                        } else if (selectedIds.includes(row.product_id)) {
+                            row.error = 'Barang ini sudah ada di baris lain. Pilih barang yang berbeda.';
+                            valid = false;
+                        } else {
+                            selectedIds.push(row.product_id);
+                        }
+
+                        if (!row.quantity || parseInt(row.quantity) < 1) {
+                            row.qtyError = 'Jumlah minimal adalah 1.';
+                            valid = false;
+                        }
+                    });
+
+                    return valid;
                 }
             };
         }
