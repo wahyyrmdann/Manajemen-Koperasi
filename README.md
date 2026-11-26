@@ -13,7 +13,7 @@ Aplikasi ini bertujuan untuk:
 | Login | Autentikasi dengan email atau username, dilengkapi pembatasan percobaan login | Tersedia |
 | Data Barang | Tambah, ubah, hapus, dan cari data barang (kode, nama, satuan, stok) | Tersedia |
 | Barang Masuk (Penerimaan) | Pencatatan penerimaan dari supplier; stok bertambah otomatis setelah transaksi divalidasi | Tersedia |
-| Barang Keluar (Pengiriman) | Pencatatan pengeluaran barang ke anggota; stok berkurang otomatis setelah transaksi divalidasi | Dalam pengembangan |
+| Barang Keluar (Pengiriman) | Pencatatan pengeluaran barang ke anggota; stok berkurang otomatis setelah transaksi divalidasi | Tersedia |
 
 Peran pengguna:
 - **Admin**: memiliki hak akses penuh dan dapat melihat data penerimaan serta pengeluaran yang dicatat karyawan.
