@@ -7,15 +7,13 @@
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Riwayat dan daftar transaksi penerimaan barang dari supplier.</p>
             </div>
-            {{-- Tombol + Baru: placeholder, form belum aktif --}}
-            <button type="button"
-                title="Formulir barang masuk belum diaktifkan"
-                class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm opacity-90 hover:opacity-100 cursor-pointer">
+            <a href="{{ route('incoming.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
                 <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
                 + Baru
-            </button>
+            </a>
         </div>
     </x-slot>
 
@@ -143,12 +141,10 @@
                                     @endif
                                 </td>
                                 <td class="py-3 px-4 text-center">
-                                    {{-- Tombol aksi: placeholder, form belum aktif --}}
-                                    <button type="button"
-                                        title="Formulir detail belum diaktifkan"
-                                        class="inline-flex items-center px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-xs font-medium text-gray-600 transition cursor-pointer">
-                                        Lihat
-                                    </button>
+                                    <a href="{{ route('incoming.show', $tx) }}"
+                                        class="inline-flex items-center px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-xs font-medium text-gray-700 transition">
+                                        {{ $tx->status->value === 'draft' ? 'Edit' : 'Lihat' }}
+                                    </a>
                                 </td>
                             </tr>
                         @empty
@@ -176,3 +172,4 @@
         </div>
     </div>
 </x-app-layout>
+
