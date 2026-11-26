@@ -54,14 +54,6 @@
                     {{ $slot }}
                 </main>
             </div>
-
-            <!-- Global Footer -->
-            <footer class="border-t border-slate-200 bg-white py-4 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
-                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <div>© {{ date('Y') }} Koperasi Desa Merah Putih. Hak Cipta Dilindungi.</div>
-                    <div class="text-slate-400 font-mono text-[11px]">Sistem Manajemen Inventaris v2.4</div>
-                </div>
-            </footer>
         </div>
     </body>
 </html>
