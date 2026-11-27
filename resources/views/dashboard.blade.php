@@ -22,61 +22,51 @@
                     </p>
                 </div>
 
-                <!-- Tombol Aksi Cepat & Status -->
-                <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-                    <a href="{{ route('incoming.index') }}"
-                       class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-blue-950 font-bold text-xs rounded-xl shadow-sm hover:shadow transition uppercase tracking-wider">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Barang Masuk</span>
-                    </a>
-
-                    <a href="{{ route('outgoing.index') }}"
-                       class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-blue-700 hover:bg-blue-600 active:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-sm hover:shadow transition border border-blue-500/50 uppercase tracking-wider">
-                        <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Barang Keluar</span>
-                    </a>
-                </div>
             </div>
         </div>
 
         <!-- 4 Kartu Ringkasan Metrik (Backend Integrated) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
 
-            <!-- Card 1: Total Jenis Barang -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between hover:shadow-md transition">
+            <!-- Card 1: Total Jenis Barang (Klik ke daftar jenis barang) -->
+            <a href="{{ route('products.index') }}"
+               class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between hover:border-blue-300 hover:shadow-md transition group">
                 <div>
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Jenis Barang</p>
                     <p class="text-2xl sm:text-3xl font-bold text-slate-900 font-mono mt-1">
                         {{ number_format($totalProductTypes) }}
                     </p>
-                    <p class="text-xs text-slate-400 mt-1">Item produk terdaftar</p>
+                    <p class="text-xs text-slate-400 mt-1 group-hover:text-blue-700 transition flex items-center gap-1 font-medium">
+                        <span>Lihat daftar barang</span>
+                        <span>→</span>
+                    </p>
                 </div>
-                <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center shrink-0">
+                <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                 </div>
-            </div>
+            </a>
 
-            <!-- Card 2: Total Stok -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between hover:shadow-md transition">
+            <!-- Card 2: Total Stok (Klik ke daftar stok barang) -->
+            <a href="{{ route('stock.index') }}"
+               class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between hover:border-amber-300 hover:shadow-md transition group">
                 <div>
                     <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Stok</p>
                     <p class="text-2xl sm:text-3xl font-bold text-slate-900 font-mono mt-1">
                         {{ number_format($totalStock) }}
                     </p>
-                    <p class="text-xs text-slate-400 mt-1">Total kuantitas gudang</p>
+                    <p class="text-xs text-slate-400 mt-1 group-hover:text-amber-600 transition flex items-center gap-1 font-medium">
+                        <span>Lihat daftar stok</span>
+                        <span>→</span>
+                    </p>
                 </div>
-                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-amber-100 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
                 </div>
-            </div>
+            </a>
 
             <!-- Card 3: Barang Masuk Draft (Klik ke daftar draft) -->
             <a href="{{ route('incoming.index', ['status' => 'draft']) }}"
@@ -186,18 +176,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Bottom Action Button to UI-003 -->
-                    <div class="mt-5 pt-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <span class="text-[11px] text-slate-400 font-medium">Akses Dokumen Penerimaan Barang (LPB)</span>
-                        <a href="{{ route('incoming.index') }}"
-                           class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0c1e3d] hover:bg-[#132d5e] active:bg-[#08152b] text-amber-300 font-semibold text-xs shadow-md shadow-blue-950/20 transition group">
-                            <span>Buka Daftar Penerimaan (UI-003)</span>
-                            <svg class="w-4 h-4 text-amber-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Elemen 5: Kartu Order Pengiriman (Barang Keluar) -->
@@ -248,18 +226,6 @@
                                 <p class="text-sm font-bold text-emerald-600 mt-0.5">{{ $doneOutgoingCount }} Selesai</p>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Bottom Action Button to UI-005 -->
-                    <div class="mt-5 pt-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <span class="text-[11px] text-slate-400 font-medium">Akses Surat Perintah Muat (SPM)</span>
-                        <a href="{{ route('outgoing.index') }}"
-                           class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0c1e3d] hover:bg-[#132d5e] active:bg-[#08152b] text-amber-300 font-semibold text-xs shadow-md shadow-blue-950/20 transition group">
-                            <span>Buka Daftar Pengiriman (UI-005)</span>
-                            <svg class="w-4 h-4 text-amber-400 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
                     </div>
                 </div>
 

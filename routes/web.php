@@ -3,7 +3,9 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncomingTransactionController;
 use App\Http\Controllers\OutgoingTransactionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +21,12 @@ Route::middleware('auth')->group(function () {
 
     // UI-005: Daftar Barang Keluar (hanya halaman list)
     Route::get('/barang-keluar', [OutgoingTransactionController::class, 'index'])->name('outgoing.index');
+
+    // Daftar Jenis Barang (dari kartu "Total Jenis Barang" di dashboard)
+    Route::get('/jenis-barang', [ProductController::class, 'index'])->name('products.index');
+
+    // Daftar Stok Barang (dari kartu "Total Stok" di dashboard)
+    Route::get('/stok-barang', [StockController::class, 'index'])->name('stock.index');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
